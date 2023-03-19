@@ -16,15 +16,15 @@
         <!-- 左侧放大镜区域 -->
         <div class="previewWrap">
           <!--放大镜效果-->
-          <Zoom/>
+          <Zoom :skuImageList="skuImageList"/>
           <!-- 小图列表 -->
-          <!--          <ImageList/>-->
+          <ImageList :skuImageList="skuImageList"/>
         </div>
         <!-- 右侧选择区域布局 -->
         <div class="InfoWrap">
           <div class="goodsDetail">
-<!--            {{$detail.skuInfo}}-->
-            <h3 class="InfoName">{{$detail.skuInfo.skuName}}</h3>
+            <!--            {{$detail.skuInfo}}-->
+            <h3 class="InfoName">{{ $detail.skuInfo.skuName }}</h3>
             <p class="news">{{ $detail.skuInfo.skuDesc }}</p>
             <div class="priceArea">
               <div class="priceArea1">
@@ -64,36 +64,21 @@
           <div class="choose">
             <div class="chooseArea">
               <div class="choosed"></div>
-              <dl>
-                <dt class="title">选择颜色</dt>
-                <dd changepirce="0" class="active">金色</dd>
-                <dd changepirce="40">银色</dd>
-                <dd changepirce="90">黑色</dd>
-              </dl>
-              <dl>
-                <dt class="title">内存容量</dt>
-                <dd changepirce="0" class="active">16G</dd>
-                <dd changepirce="300">64G</dd>
-                <dd changepirce="900">128G</dd>
-                <dd changepirce="1300">256G</dd>
-              </dl>
-              <dl>
-                <dt class="title">选择版本</dt>
-                <dd changepirce="0" class="active">公开版</dd>
-                <dd changepirce="-1000">移动版</dd>
-              </dl>
-              <dl>
-                <dt class="title">购买方式</dt>
-                <dd changepirce="0" class="active">官方标配</dd>
-                <dd changepirce="-240">优惠移动版</dd>
-                <dd changepirce="-390">电信优惠版</dd>
+              <dl v-for="spuSaleAttr in $detail.spuSaleAttrList" :key="spuSaleAttr.id">
+                <dt class="title">{{ spuSaleAttr.saleAttrName }}</dt>
+                <dd changepirce="0" :class="{active:parseInt(spuSaleAttrValue.isChecked) === 1}"
+                    v-for="spuSaleAttrValue in spuSaleAttr.spuSaleAttrValueList" :key="spuSaleAttrValue.id"
+                    @click="changeActive(spuSaleAttrValue,spuSaleAttr.spuSaleAttrValueList)"
+                >
+                  {{ spuSaleAttrValue.saleAttrValueName }}
+                </dd>
               </dl>
             </div>
             <div class="cartWrap">
               <div class="controls">
-                <input autocomplete="off" class="itxt">
-                <a href="javascript:" class="plus">+</a>
-                <a href="javascript:" class="mins">-</a>
+                <input autocomplete="off" v-model.number="skuNum" class="itxt" @change="changeSkuNum">
+                <a href="javascript:" class="plus" @click="skuNum++">+</a>
+                <a href="javascript:" class="mins" @click="skuNum>1?skuNum--:skuNum=1">-</a>
               </div>
               <div class="add">
                 <a href="javascript:">加入购物车</a>
@@ -349,15 +334,38 @@
 <script setup lang="ts">
 import Zoom from './Zoom/index.vue'
 import ImageList from './ImageList/index.vue'
-import {onMounted} from "vue";
+import {onMounted, computed, ref} from "vue";
 import {detail} from '@/stores'
 import {useRoute} from 'vue-router'
+import type {SkuImageList, SpuSaleAttrValueList} from "@/interface/ResultType";
 
 const route = useRoute()
 const $detail = detail()
+let skuNum = ref<number>(1)
+
 onMounted(() => {
   $detail.getGoodInfo(route.params.skuId as unknown as number)
 })
+
+let skuImageList = computed<SkuImageList[]>(() => {
+  return $detail.skuInfo.skuImageList || []
+})
+const changeSkuNum = (event:any) => {
+  // console.log(event.target.value)
+  let regex = /^[1-9]\d*$/
+  if (regex.test(event.target.value)){
+    skuNum.value = event.target.value
+  }else {
+    skuNum.value = 1
+    alert('不合适的输入')
+  }
+}
+const changeActive = (spuSaleAttrValue: SpuSaleAttrValueList, spuSaleAttrValueList: SpuSaleAttrValueList[]) => {
+  spuSaleAttrValueList.forEach(item => {
+    item.isChecked = '0'
+  })
+  spuSaleAttrValue.isChecked = '1'
+}
 
 </script>
 

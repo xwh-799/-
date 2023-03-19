@@ -1,16 +1,47 @@
 <template>
   <div class="spec-preview">
-    <img src="../images/s1.png" />
-    <div class="event"></div>
+    <img :src="img1.imgUrl"/>
+    <div class="event" @mousemove="handle"></div>
     <div class="big">
-      <img src="../images/s1.png" />
+      <img :src="img1.imgUrl" ref="big"/>
     </div>
-    <div class="mask"></div>
+    <div class="mask" id="mask" ref="mask"></div>
   </div>
 </template>
 
 <script setup lang="ts">
+import type {SkuImageList} from '@/interface/ResultType'
+import {computed, getCurrentInstance, onMounted, ref} from "vue";
 
+const instance = getCurrentInstance()
+let defaults = withDefaults(defineProps<{
+  skuImageList: SkuImageList[]
+}>(), {});
+let img1 = computed<SkuImageList>(() => {
+  return defaults.skuImageList[currentIndex.value] || {}
+})
+
+let mask = ref<HTMLDivElement>()
+let big = ref<HTMLImageElement>()
+const handle = (event: MouseEvent) => {
+  let left = event.offsetX - (mask?.value?.offsetWidth as number) / 2;
+  let top = event.offsetY - (mask?.value?.offsetHeight as number) / 2;
+  if (left <= 0) left = 0
+  if (left >= mask!.value!.offsetWidth) left = mask.value?.offsetWidth as number
+  if (top <= 0) top = 0
+  if (top >= mask!.value!.offsetHeight) top = mask.value?.offsetHeight as number
+  mask!.value!.style!.left = left + 'px'
+  mask!.value!.style!.top = top + 'px'
+  big!.value!.style!.left = -2 * left + 'px'
+  big!.value!.style!.top = -2 * top + 'px'
+}
+
+let currentIndex = ref<number>(0)
+onMounted(() => {
+  instance?.proxy?.$Bus.on('getIndex', (index: any) => {
+    currentIndex.value = index
+  })
+})
 </script>
 
 <style scoped lang="less">
@@ -66,8 +97,8 @@
     }
   }
 
-  .event:hover~.mask,
-  .event:hover~.big {
+  .event:hover ~ .mask,
+  .event:hover ~ .big {
     display: block;
   }
 }

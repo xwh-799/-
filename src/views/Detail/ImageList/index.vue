@@ -1,25 +1,37 @@
 <template>
   <swiper
-      :slidesPerView="1"
+      class="swiper-container"
+      :slidesPerView="3"
+      :slidesPerGroup="2"
       :spaceBetween="30"
-      :loop="true"
       :centeredSlides="true"
-      :pagination="{clickable: true}"
-      :autoplay="{delay: 2500,disableOnInteraction: false}"
       :navigation="true"
       :modules="modules">
-    <swiper-slide >
-      <img src="../images/s1.png" alt=""/>
+
+    <swiper-slide v-for="(skuImage,index) in defaults.skuImageList" :key="skuImage.id">
+      <img @click="changeCurrentIndex(index)" :class="{active:currentIdent===index}" :src="skuImage.imgUrl">
     </swiper-slide>
   </swiper>
+
 </template>
 
 <script setup lang="ts">
+// import {Swiper, SwiperSlide} from 'swiper/vue'
+import type {SkuImageList} from "@/interface/ResultType";
+import {ref,getCurrentInstance} from "vue";
 import {Swiper, SwiperSlide} from 'swiper/vue'
 import {Autoplay, Navigation, Pagination, A11y} from 'swiper';
 
 const modules = [Autoplay, Pagination, Navigation, A11y];
-
+const instance = getCurrentInstance()
+let defaults = withDefaults(defineProps<{
+  skuImageList: SkuImageList[]
+}>(), {});
+const currentIdent = ref<number>(0)
+const changeCurrentIndex = (index: number) => {
+  currentIdent.value = index
+  instance?.proxy?.$Bus.emit('getIndex',currentIdent.value)
+}
 </script>
 
 <style scoped lang="less">
@@ -47,10 +59,6 @@ const modules = [Autoplay, Pagination, Navigation, A11y];
         padding: 1px;
       }
 
-      &:hover {
-        border: 2px solid #f60;
-        padding: 1px;
-      }
     }
   }
 
@@ -73,6 +81,7 @@ const modules = [Autoplay, Pagination, Navigation, A11y];
     border: 1px solid rgb(204, 204, 204);
     top: 0;
     margin-top: 0;
+
     &::after {
       font-size: 12px;
     }

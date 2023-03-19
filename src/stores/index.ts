@@ -9,7 +9,7 @@ import type {
     Result,
     TrademarkList,
     AttrsList,
-    GoodInfo, CategoryView, SkuInfo
+    GoodInfo, CategoryView, SkuInfo, SpuSaleAttrList
 } from '@/interface/ResultType'
 
 export const home = defineStore(StoreName.HOME, {
@@ -76,7 +76,7 @@ export const search = defineStore(StoreName.SEARCH, {
 export const detail = defineStore(StoreName.DETAIL, {
     state: () => {
         return {
-            goodInfo: <GoodInfo>{}
+            goodInfo: <GoodInfo>{},
         }
     },
     actions: {
@@ -93,6 +93,9 @@ export const detail = defineStore(StoreName.DETAIL, {
         },
         skuInfo(): SkuInfo {
             return this?.goodInfo?.skuInfo ?? {}
+        },
+        spuSaleAttrList(): SpuSaleAttrList[] {
+            return this?.goodInfo?.spuSaleAttrList ?? []
         }
     }
 })
