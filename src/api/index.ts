@@ -40,9 +40,24 @@ export const reqAddOrUpdateShopCart = (skuId: number, skuNum: number) => {
 }
 
 // /api/cart/cartList
-export const reqCartList  = () => {
+export const reqCartList = () => {
     return requests({
         url: '/cart/cartList',
+        method: 'get'
+    })
+}
+
+// /api/cart/deleteCart/{skuId}
+export const reqDeleteCartById = (skuId: number) => {
+    return requests({
+        url: `/cart/deleteCart/${skuId}`,
+        method: 'delete'
+    })
+}
+// /api/cart/checkCart/{skuID}/{isChecked}
+export const reqUpdateCheckedById = (skuId: number, isChecked: number) => {
+    return requests({
+        url: `/cart/checkCart/${skuId}/${isChecked}`,
         method: 'get'
     })
 }

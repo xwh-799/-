@@ -1,4 +1,4 @@
 declare module 'lodash' {
-    export function throttle(ck: (index: number) => void, timer: number): number;
+    export function throttle(ck: (...a:any[]) => void, timer: number): number;
 }
 

@@ -13,7 +13,8 @@
       <div class="cart-body">
         <ul class="cart-list" v-for="cartInfo in $shopCart.cartInfoList" :key="cartInfo.id">
           <li class="cart-list-con1">
-            <input type="checkbox" name="chk_list" :checked="cartInfo.isChecked === 1">
+            <input type="checkbox" name="chk_list" :checked="cartInfo.isChecked === 1"
+                   @change="updateChecked(cartInfo,$event)">
           </li>
           <li class="cart-list-con2">
             <img :src="cartInfo.imgUrl">
@@ -23,15 +24,17 @@
             <span class="price">{{ cartInfo.skuPrice }}</span>
           </li>
           <li class="cart-list-con5">
-            <a href="javascript:void(0)" class="mins">-</a>
-            <input autocomplete="off" type="text" minnum="1" class="itxt" :value="cartInfo.skuNum">
-            <a href="javascript:void(0)" class="plus">+</a>
+            <a href="javascript:void(0)" class="mins" @click="handler('minus',-1,cartInfo)">-</a>
+            <input autocomplete="off" type="text" minnum="1" class="itxt"
+                   @change="handler('change',$event.target.value*1,cartInfo)"
+                   :value="cartInfo.skuNum">
+            <a href="javascript:void(0)" class="plus" @click="handler('add',1,cartInfo)">+</a>
           </li>
           <li class="cart-list-con6">
             <span class="sum">{{ cartInfo.skuPrice * cartInfo.skuNum }}</span>
           </li>
           <li class="cart-list-con7">
-            <a href="#none" class="sindelet">删除</a>
+            <a class="sindelet" @click.prevent="deleteCartById(cartInfo)">删除</a>
             <br>
             <a href="#none">移到收藏</a>
           </li>
@@ -51,11 +54,11 @@
       </div>
       <div class="money-box">
         <div class="chosed">已选择
-          <span>0</span>件商品
+          <span>{{ totalPrice.num }}</span>件商品
         </div>
         <div class="sumprice">
           <em>总价（不含运费） ：</em>
-          <i class="summoney">{{ totalPrice }}</i>
+          <i class="summoney">{{ totalPrice.sum }}</i>
         </div>
         <div class="sumbtn">
           <a class="sum-btn" href="###" target="_blank">结算</a>
@@ -66,25 +69,66 @@
 </template>
 
 <script setup lang="ts">
+import {throttle} from "lodash";
 import {onMounted, computed} from "vue";
-import {shopCart} from '@/stores'
+import {shopCart, detail} from '@/stores'
+import type {CartInfoList} from "@/interface/ResultType";
 
+const $detail = detail()
 const $shopCart = shopCart()
 
+const updateChecked = async (cartInfo: CartInfoList, event: any) => {
+  try {
+    await $shopCart.updateCheckedById(cartInfo.skuId, event.target.checked ? 1 : 0)
+    await $shopCart.getCartList()
+  } catch (e: any) {
+    alert(e.message)
+  }
+}
+
+const deleteCartById = throttle(async function (cartInfo: CartInfoList) {
+  try {
+    await $shopCart.deleteCartById(cartInfo.skuId)
+    await $shopCart.getCartList()
+  } catch (e: any) {
+    console.log(e.message)
+  }
+}, 1000)
+
+const handler = throttle(async (type: string, num: number, cartInfo: CartInfoList) => {
+  if (type === 'minus') {
+    num = cartInfo.skuNum > 1 ? -1 : 0
+  } else if (type === 'add') {
+    num = 1
+  } else {
+    num = (isNaN(num) || num < 1) ? num = 0 : Math.floor(num - cartInfo.skuNum)
+  }
+  try {
+    await $detail.addOrUpdateShopCart(cartInfo.skuId, num)
+    await $shopCart.getCartList()
+  } catch (e: any) {
+    alert(e.message)
+  }
+}, 1000)
 onMounted(() => {
   $shopCart.getCartList()
 })
 
-let totalPrice = computed<number>(() => {
+let totalPrice = computed<{ sum: number, num: number }>(() => {
   let sum = 0;
+  let num = 0;
   $shopCart.cartInfoList.forEach(item => {
     sum += item.skuPrice * item.skuNum
+    num += item.skuNum
   })
-  return sum
+  return {
+    sum,
+    num
+  }
 })
 
 let isAllCheck = computed<boolean>(() => {
-  return $shopCart.cartInfoList.every(item=>item.isChecked === 1)
+  return $shopCart.cartInfoList.every(item => item.isChecked === 1)
 })
 </script>
 

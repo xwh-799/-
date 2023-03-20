@@ -367,7 +367,6 @@ let skuImageList = computed<SkuImageList[]>(() => {
   return $detail.skuInfo.skuImageList || []
 })
 const changeSkuNum = (event: any) => {
-  // console.log(event.target.value)
   let regex = /^[1-9]\d*$/
   if (regex.test(event.target.value)) {
     skuNum.value = event.target.value

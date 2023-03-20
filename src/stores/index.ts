@@ -6,7 +6,7 @@ import {
     reqFloorList,
     regGetBannerList,
     reqGoodInfo,
-    reqAddOrUpdateShopCart, reqCartList
+    reqAddOrUpdateShopCart, reqCartList, reqDeleteCartById, reqUpdateCheckedById
 } from '@/api'
 import type {
     MockJSType,
@@ -132,12 +132,29 @@ export const shopCart = defineStore(StoreName.SHOPCART, {
             if (result.data.code == 200) {
                 this.cartList = result.data.data
             }
+        },
+        async deleteCartById(skuId: number) {
+            const result = await reqDeleteCartById(skuId)
+            if (result.data.code == 200) {
+                return 'ok'
+            } else {
+                return Promise.reject(new Error('faile'))
+            }
+        },
+        async updateCheckedById(skuId: number, isChecked: number) {
+            const result = await reqUpdateCheckedById(skuId, isChecked)
+            if (result.data.code == 200) {
+                return 'ok'
+            } else {
+                return Promise.reject(new Error('faile'))
+            }
         }
+
     },
     getters: {
         cartInfoList(): CartInfoList[] {
             const i = this.cartList[0] ?? {}
-            return i.cartInfoList??[]
+            return i.cartInfoList ?? []
         }
     }
 })
