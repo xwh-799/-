@@ -17,7 +17,7 @@ requests.interceptors.response.use((res: AxiosResponse<ResultType, any>) => {
     nprogress.done()
     return res
 }, error => {
-    return Promise.reject(new Error(error))
+    return Promise.reject(new Error('faile'))
 })
 
 export default requests

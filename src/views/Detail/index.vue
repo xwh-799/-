@@ -1,7 +1,7 @@
 <template>
   <div class="detail">
     <!-- 商品分类导航 -->
-    <TypeNav/>
+    <TypeNav />
 
     <!-- 主要内容区域 -->
     <section class="con">
@@ -16,9 +16,9 @@
         <!-- 左侧放大镜区域 -->
         <div class="previewWrap">
           <!--放大镜效果-->
-          <Zoom :skuImageList="skuImageList"/>
+          <Zoom :skuImageList="skuImageList" />
           <!-- 小图列表 -->
-          <ImageList :skuImageList="skuImageList"/>
+          <ImageList :skuImageList="skuImageList" />
         </div>
         <!-- 右侧选择区域布局 -->
         <div class="InfoWrap">
@@ -60,16 +60,15 @@
               </div>
             </div>
           </div>
-<!--123-->
+          <!--123-->
           <div class="choose">
             <div class="chooseArea">
               <div class="choosed"></div>
               <dl v-for="spuSaleAttr in $detail.spuSaleAttrList" :key="spuSaleAttr.id">
                 <dt class="title">{{ spuSaleAttr.saleAttrName }}</dt>
-                <dd changepirce="0" :class="{active:parseInt(spuSaleAttrValue.isChecked) === 1}"
-                    v-for="spuSaleAttrValue in spuSaleAttr.spuSaleAttrValueList" :key="spuSaleAttrValue.id"
-                    @click="changeActive(spuSaleAttrValue,spuSaleAttr.spuSaleAttrValueList)"
-                >
+                <dd changepirce="0" :class="{ active: parseInt(spuSaleAttrValue.isChecked) === 1 }"
+                  v-for="spuSaleAttrValue in spuSaleAttr.spuSaleAttrValueList" :key="spuSaleAttrValue.id"
+                  @click="changeActive(spuSaleAttrValue, spuSaleAttr.spuSaleAttrValueList)">
                   {{ spuSaleAttrValue.saleAttrValueName }}
                 </dd>
               </dl>
@@ -78,10 +77,10 @@
               <div class="controls">
                 <input autocomplete="off" v-model.number="skuNum" class="itxt" @change="changeSkuNum">
                 <a href="javascript:" class="plus" @click="skuNum++">+</a>
-                <a href="javascript:" class="mins" @click="skuNum>1?skuNum--:skuNum=1">-</a>
+                <a href="javascript:" class="mins" @click="skuNum > 1 ? skuNum-- : skuNum = 1">-</a>
               </div>
               <div class="add">
-                <a href="javascript:">加入购物车</a>
+                <a href="javascript:" @click="addShopToCart">加入购物车</a>
               </div>
             </div>
           </div>
@@ -112,7 +111,7 @@
               <li>
                 <div class="list-wrap">
                   <div class="p-img">
-                    <img src="./images/part01.png"/>
+                    <img src="./images/part01.png" />
                   </div>
                   <div class="attr">Apple苹果iPhone 6s (A1699)</div>
                   <div class="price">
@@ -127,7 +126,7 @@
               <li>
                 <div class="list-wrap">
                   <div class="p-img">
-                    <img src="./images/part02.png"/>
+                    <img src="./images/part02.png" />
                   </div>
                   <div class="attr">
                     <em>Apple苹果iPhone 6s (A1699)</em>
@@ -146,7 +145,7 @@
               <li>
                 <div class="list-wrap">
                   <div class="p-img">
-                    <img src="./images/part03.png"/>
+                    <img src="./images/part03.png" />
                   </div>
                   <div class="attr">
                     <em>Apple苹果iPhone 6s (A1699)</em>
@@ -165,7 +164,7 @@
               <li>
                 <div class="list-wrap">
                   <div class="p-img">
-                    <img src="./images/part02.png"/>
+                    <img src="./images/part02.png" />
                   </div>
                   <div class="attr">
                     <em>Apple苹果iPhone 6s (A1699)</em>
@@ -184,7 +183,7 @@
               <li>
                 <div class="list-wrap">
                   <div class="p-img">
-                    <img src="./images/part03.png"/>
+                    <img src="./images/part03.png" />
                   </div>
                   <div class="attr">
                     <em>Apple苹果iPhone 6s (A1699)</em>
@@ -212,13 +211,13 @@
           <h4 class="kt">选择搭配</h4>
           <div class="good-suits">
             <div class="master">
-              <img src="./images/l-m01.png"/>
+              <img src="./images/l-m01.png" />
               <p>￥5299</p>
               <i>+</i>
             </div>
             <ul class="suits">
               <li class="suitsItem">
-                <img src="./images/dp01.png"/>
+                <img src="./images/dp01.png" />
                 <p>Feless费勒斯VR</p>
                 <label>
                   <input type="checkbox" value="39">
@@ -226,7 +225,7 @@
                 </label>
               </li>
               <li class="suitsItem">
-                <img src="./images/dp02.png"/>
+                <img src="./images/dp02.png" />
                 <p>Feless费勒斯VR</p>
                 <label>
                   <input type="checkbox" value="50">
@@ -234,7 +233,7 @@
                 </label>
               </li>
               <li class="suitsItem">
-                <img src="./images/dp03.png"/>
+                <img src="./images/dp03.png" />
                 <p>Feless费勒斯VR</p>
                 <label>
                   <input type="checkbox" value="59">
@@ -242,7 +241,7 @@
                 </label>
               </li>
               <li class="suitsItem">
-                <img src="./images/dp04.png"/>
+                <img src="./images/dp04.png" />
                 <p>Feless费勒斯VR</p>
                 <label>
                   <input type="checkbox" value="99">
@@ -307,9 +306,9 @@
                 <li>机身内存：64GB</li>
               </ul>
               <div class="intro-detail">
-                <img src="./images/intro01.png"/>
-                <img src="./images/intro02.png"/>
-                <img src="./images/intro03.png"/>
+                <img src="./images/intro01.png" />
+                <img src="./images/intro02.png" />
+                <img src="./images/intro03.png" />
               </div>
             </div>
             <div id="two" class="tab-pane">
@@ -334,12 +333,13 @@
 <script setup lang="ts">
 import Zoom from './Zoom/index.vue'
 import ImageList from './ImageList/index.vue'
-import {onMounted, computed, ref} from "vue";
-import {detail} from '@/stores'
-import {useRoute} from 'vue-router'
-import type {SkuImageList, SpuSaleAttrValueList} from "@/interface/ResultType";
+import { onMounted, computed, ref } from "vue";
+import { detail } from '@/stores'
+import { useRoute,useRouter } from 'vue-router'
+import type { SkuImageList, SpuSaleAttrValueList } from "@/interface/ResultType";
 
 const route = useRoute()
+const router = useRouter()
 const $detail = detail()
 let skuNum = ref<number>(1)
 
@@ -347,15 +347,28 @@ onMounted(() => {
   $detail.getGoodInfo(route.params.skuId as unknown as number)
 })
 
+let addShopToCart = async () => {
+  try {
+    await $detail.addOrUpdateShopCart(route.params.skuId as unknown as number, skuNum.value)
+    router.push({
+      name:'addcartsuccess',
+      
+    })
+  } catch (error) {
+    alert(error)
+  }
+
+}
+
 let skuImageList = computed<SkuImageList[]>(() => {
   return $detail.skuInfo.skuImageList || []
 })
-const changeSkuNum = (event:any) => {
+const changeSkuNum = (event: any) => {
   // console.log(event.target.value)
   let regex = /^[1-9]\d*$/
-  if (regex.test(event.target.value)){
+  if (regex.test(event.target.value)) {
     skuNum.value = event.target.value
-  }else {
+  } else {
     skuNum.value = 1
     alert('不合适的输入')
   }
@@ -378,7 +391,7 @@ const changeActive = (spuSaleAttrValue: SpuSaleAttrValueList, spuSaleAttrValueLi
     .conPoin {
       padding: 9px 15px 9px 0;
 
-      & > span + span:before {
+      &>span+span:before {
         content: "/\00a0";
         padding: 0 5px;
         color: #ccc;
@@ -645,7 +658,7 @@ const changeActive = (spuSaleAttrValue: SpuSaleAttrValueList, spuSaleAttrValueLi
             }
 
             .goodsList {
-              & > li {
+              &>li {
                 margin: 5px 0 15px;
                 border-bottom: 1px solid #ededed;
                 padding-bottom: 5px;
@@ -810,7 +823,7 @@ const changeActive = (spuSaleAttrValue: SpuSaleAttrValueList, spuSaleAttrValueLi
           li {
             float: left;
 
-            & + li > a {
+            &+li>a {
               border-left: 1px solid #ddd;
             }
 

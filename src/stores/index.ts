@@ -1,6 +1,6 @@
-import {defineStore} from 'pinia'
-import {StoreName} from '@/interface/StoreName'
-import {regCateGoryList, reqGetSearchInfo, reqFloorList, regGetBannerList, reqGoodInfo} from '@/api'
+import { defineStore } from 'pinia'
+import { StoreName } from '@/interface/StoreName'
+import { regCateGoryList, reqGetSearchInfo, reqFloorList, regGetBannerList, reqGoodInfo, reqAddOrUpdateShopCart } from '@/api'
 import type {
     MockJSType,
     FloorList,
@@ -84,6 +84,15 @@ export const detail = defineStore(StoreName.DETAIL, {
             const result = await reqGoodInfo(skuId)
             if (result.data.code == 200) {
                 this.goodInfo = result.data.data
+            }
+        },
+
+        async addOrUpdateShopCart(skuId: number, skuNum: number) {
+            const result = await reqAddOrUpdateShopCart(skuId, skuNum)
+            if (result.data.code == 200) {
+                return 'ok'
+            } else {
+                return Promise.reject(new Error('faile'))
             }
         }
     },
