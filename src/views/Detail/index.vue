@@ -350,9 +350,12 @@ onMounted(() => {
 let addShopToCart = async () => {
   try {
     await $detail.addOrUpdateShopCart(route.params.skuId as unknown as number, skuNum.value)
+    sessionStorage.setItem('SKUINFO',JSON.stringify($detail.skuInfo))
     router.push({
       name:'addcartsuccess',
-      
+      query:{
+        skuNum:skuNum.value
+      }
     })
   } catch (error) {
     alert(error)
