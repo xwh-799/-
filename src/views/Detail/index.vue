@@ -60,7 +60,7 @@
               </div>
             </div>
           </div>
-
+<!--123-->
           <div class="choose">
             <div class="chooseArea">
               <div class="choosed"></div>
