@@ -1,6 +1,13 @@
-import { defineStore } from 'pinia'
-import { StoreName } from '@/interface/StoreName'
-import { regCateGoryList, reqGetSearchInfo, reqFloorList, regGetBannerList, reqGoodInfo, reqAddOrUpdateShopCart } from '@/api'
+import {defineStore} from 'pinia'
+import {StoreName} from '@/interface/StoreName'
+import {
+    regCateGoryList,
+    reqGetSearchInfo,
+    reqFloorList,
+    regGetBannerList,
+    reqGoodInfo,
+    reqAddOrUpdateShopCart, reqCartList
+} from '@/api'
 import type {
     MockJSType,
     FloorList,
@@ -11,6 +18,7 @@ import type {
     AttrsList,
     GoodInfo, CategoryView, SkuInfo, SpuSaleAttrList
 } from '@/interface/ResultType'
+import {getUUID} from "@/utils/uuid_token";
 
 export const home = defineStore(StoreName.HOME, {
     state: () => {
@@ -77,6 +85,8 @@ export const detail = defineStore(StoreName.DETAIL, {
     state: () => {
         return {
             goodInfo: <GoodInfo>{},
+            // 游客临时身份
+            // uuid_token: getUUID()
         }
     },
     actions: {
@@ -107,4 +117,23 @@ export const detail = defineStore(StoreName.DETAIL, {
             return this?.goodInfo?.spuSaleAttrList ?? []
         }
     }
+})
+
+
+export const shopCart = defineStore(StoreName.SHOPCART, {
+    state: () => {
+        return {
+            CartList: {}
+        }
+    },
+    actions: {
+        async getCartList() {
+            const result = await reqCartList()
+            console.log(result.data)
+            // if (result.data.code == 200) {
+            //     this.CartList = result.data.data
+            // }
+        }
+    },
+    getters: {}
 })

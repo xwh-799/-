@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory, type RouteRecordRaw } from 'vue-router'
+import {createRouter, createWebHashHistory, type RouteRecordRaw} from 'vue-router'
 // import {createRouter, createWebHashHistory} from 'vue-router'
 // import * as VueRouter from 'vue-router'
 // VueRouter
@@ -45,7 +45,14 @@ const routes: Array<RouteRecordRaw> = [
         name: 'addcartsuccess',
         component: import('@/views/AddCartSuccess/index.vue'),
         meta: {
-            isShow:true
+            isShow: true
+        }
+    }, {
+        path: '/shopcart',
+        name: 'shopcart',
+        component: import('@/views/ShopCart/index.vue'),
+        meta: {
+            isShow: true
         }
     },
     {
@@ -58,7 +65,7 @@ const router = createRouter({
     history: createWebHashHistory(),
     routes: routes,
     scrollBehavior(to, from, savePosition) {
-        return { top: 0 }
+        return {top: 0}
     }
 })
 

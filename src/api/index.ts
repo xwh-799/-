@@ -38,3 +38,11 @@ export const reqAddOrUpdateShopCart = (skuId: number, skuNum: number) => {
         method: 'post'
     })
 }
+
+// /api/cart/cartList
+export const reqCartList  = () => {
+    return requests({
+        url: '/cart/cartList',
+        method: 'get'
+    })
+}

@@ -1,5 +1,7 @@
 export enum StoreName {
     HOME = "home",
     SEARCH = "SEARCH",
-    DETAIL = "detail"
+    DETAIL = "detail",
+
+    SHOPCART = "shopCart"
 }
