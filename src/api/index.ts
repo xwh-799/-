@@ -25,9 +25,16 @@ export const reqGetSearchInfo = (params: {}) => {
     })
 }
 
-export const reqGoodInfo = (skuId:number) => {
+export const reqGoodInfo = (skuId: number) => {
     return requests({
-        url:`/item/${skuId}`,
-        method:'get',
+        url: `/item/${skuId}`,
+        method: 'get',
+    })
+}
+
+export const reqAddOrUpdateShopCart = (skuId: number, skuNum: number) => {
+    return requests({
+        url: `/cart/addToCart/${skuId}/${skuNum}`,
+        method: 'post'
     })
 }
