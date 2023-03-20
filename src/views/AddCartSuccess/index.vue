@@ -13,7 +13,7 @@
                     </div>
                 </div>
                 <div class="right-gocart">
-                    <a href="javascript:" class="sui-btn btn-xlarge">查看商品详情</a>
+                    <router-link :to='`/detail/${skuInfo.id}`' class="sui-btn btn-xlarge">查看商品详情</router-link>
                     <a href="javascript:">去购物车结算 > </a>
                 </div>
             </div>
@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import type { SkuInfo } from '@/interface/ResultType';
 import { computed } from 'vue'
-import {useRoute} from 'vue-router'
+import { RouterLink, useRoute } from 'vue-router'
 
 const route = useRoute()
 
