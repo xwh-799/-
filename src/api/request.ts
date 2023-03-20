@@ -2,10 +2,8 @@ import axios, {type AxiosResponse, type InternalAxiosRequestConfig} from "axios"
 import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 import type {ResultType} from '@/interface/ResultType'
-import {detail} from '@/stores'
 import {getUUID} from "@/utils/uuid_token";
 
-// const $detail = detail()
 const requests = axios.create({
     baseURL: '/api',
     timeout: 5000,

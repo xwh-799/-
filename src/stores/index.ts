@@ -16,7 +16,7 @@ import type {
     Result,
     TrademarkList,
     AttrsList,
-    GoodInfo, CategoryView, SkuInfo, SpuSaleAttrList
+    GoodInfo, CategoryView, SkuInfo, SpuSaleAttrList, CartType, CartInfoList
 } from '@/interface/ResultType'
 import {getUUID} from "@/utils/uuid_token";
 
@@ -123,17 +123,21 @@ export const detail = defineStore(StoreName.DETAIL, {
 export const shopCart = defineStore(StoreName.SHOPCART, {
     state: () => {
         return {
-            CartList: {}
+            cartList: <Array<CartType>>[]
         }
     },
     actions: {
         async getCartList() {
             const result = await reqCartList()
-            console.log(result.data)
-            // if (result.data.code == 200) {
-            //     this.CartList = result.data.data
-            // }
+            if (result.data.code == 200) {
+                this.cartList = result.data.data
+            }
         }
     },
-    getters: {}
+    getters: {
+        cartInfoList(): CartInfoList[] {
+            const i = this.cartList[0] ?? {}
+            return i.cartInfoList??[]
+        }
+    }
 })
