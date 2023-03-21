@@ -18,7 +18,6 @@ import type {
     AttrsList,
     GoodInfo, CategoryView, SkuInfo, SpuSaleAttrList, CartType, CartInfoList
 } from '@/interface/ResultType'
-import {getUUID} from "@/utils/uuid_token";
 
 export const home = defineStore(StoreName.HOME, {
     state: () => {
@@ -148,6 +147,31 @@ export const shopCart = defineStore(StoreName.SHOPCART, {
             } else {
                 return Promise.reject(new Error('faile'))
             }
+        },
+
+        deleteAllCheckedCart() {
+            const promiseAll: Promise<any>[] = []
+            this.cartInfoList.forEach(item => {
+                if (item.isChecked == 1) {
+                    let promise = this.deleteCartById(item.skuId)
+                    promiseAll.push(promise)
+                }
+            })
+            return Promise.all(promiseAll)
+        },
+
+        allChecked(check: boolean) {
+            const promiseAll: Promise<any>[] = []
+            this.cartInfoList.forEach(item => {
+                if (check) {
+                    let result = this.updateCheckedById(item.skuId, 1);
+                    promiseAll.push(result)
+                } else {
+                    let result = this.updateCheckedById(item.skuId, 0)
+                    promiseAll.push(result)
+                }
+            })
+            return Promise.all(promiseAll)
         }
 
     },

@@ -44,11 +44,11 @@
     </div>
     <div class="cart-tool">
       <div class="select-all">
-        <input class="chooseAll" type="checkbox" :checked="isAllCheck">
+        <input class="chooseAll" type="checkbox" @change="isAllChecked($event)" :checked="isAllCheck">
         <span>全选</span>
       </div>
       <div class="option">
-        <a href="#none">删除选中的商品</a>
+        <a @click="deleteAllChecked()">删除选中的商品</a>
         <a href="#none">移到我的关注</a>
         <a href="#none">清除下柜商品</a>
       </div>
@@ -77,6 +77,28 @@ import type {CartInfoList} from "@/interface/ResultType";
 const $detail = detail()
 const $shopCart = shopCart()
 
+
+const isAllChecked = async (event: any) => {
+
+  try {
+    await $shopCart.allChecked(event.target.checked)
+    await $shopCart.getCartList()
+  } catch (e: any) {
+    alert(e.message)
+  }
+
+}
+
+const deleteAllChecked = async () => {
+
+  try {
+    await $shopCart.deleteAllCheckedCart()
+    await $shopCart.getCartList()
+  } catch (e: any) {
+    alert(e.message)
+  }
+
+}
 const updateChecked = async (cartInfo: CartInfoList, event: any) => {
   try {
     await $shopCart.updateCheckedById(cartInfo.skuId, event.target.checked ? 1 : 0)
@@ -298,6 +320,8 @@ let isAllCheck = computed<boolean>(() => {
         float: left;
         padding: 0 10px;
         color: #666;
+        //cursor: hand
+        cursor: pointer
       }
     }
 
