@@ -150,7 +150,7 @@ let totalPrice = computed<{ sum: number, num: number }>(() => {
 })
 
 let isAllCheck = computed<boolean>(() => {
-  return $shopCart.cartInfoList.every(item => item.isChecked === 1)
+  return $shopCart.cartInfoList.every(item => item.isChecked === 1) && $shopCart.cartInfoList.length > 1
 })
 </script>
 
