@@ -81,3 +81,9 @@ export const reqUserRegister = (phone: string, password: string, code: string) =
         }
     })
 }
+
+export const reqUserLogin = (data:any) => requests({
+    url: '/user/passport/login',
+    method: 'post',
+    data: data
+})

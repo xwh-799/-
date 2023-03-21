@@ -14,14 +14,14 @@
           </ul>
 
           <div class="content">
-            <form action="##">
+            <form>
               <div class="input-text clearFix">
                 <span></span>
-                <input type="text" placeholder="邮箱/用户名/手机号">
+                <input type="text" placeholder="邮箱/用户名/手机号" v-model="phone">
               </div>
               <div class="input-text clearFix">
                 <span class="pwd"></span>
-                <input type="text" placeholder="请输入密码">
+                <input type="text" placeholder="请输入密码" v-model="password">
               </div>
               <div class="setting clearFix">
                 <label class="checkbox inline">
@@ -30,7 +30,7 @@
                 </label>
                 <span class="forget">忘记密码？</span>
               </div>
-              <button class="btn">登&nbsp;&nbsp;录</button>
+              <button @click.prevent="userLogin" class="btn">登&nbsp;&nbsp;录</button>
             </form>
 
             <div class="call clearFix">
@@ -66,6 +66,26 @@
 </template>
 
 <script setup lang="ts">
+import {ref} from "vue";
+import {user} from '@/stores'
+import {useRouter} from "vue-router";
+
+const router = useRouter()
+const $user = user()
+let phone = ref<string>('')
+let password = ref<string>('')
+
+const userLogin = async () => {
+
+  try {
+    (phone && password) && await $user.userLogin({phone: phone.value, password: password.value})
+    await router.push({name: 'home'})
+  } catch (e: any) {
+    alert(e.message)
+  }
+
+}
+
 </script>
 
 <style scoped lang="less">

@@ -6,7 +6,13 @@ import {
     reqFloorList,
     regGetBannerList,
     reqGoodInfo,
-    reqAddOrUpdateShopCart, reqCartList, reqDeleteCartById, reqUpdateCheckedById, reqGetCode, reqUserRegister
+    reqAddOrUpdateShopCart,
+    reqCartList,
+    reqDeleteCartById,
+    reqUpdateCheckedById,
+    reqGetCode,
+    reqUserRegister,
+    reqUserLogin
 } from '@/api'
 import type {
     MockJSType,
@@ -16,7 +22,7 @@ import type {
     Result,
     TrademarkList,
     AttrsList,
-    GoodInfo, CategoryView, SkuInfo, SpuSaleAttrList, CartType, CartInfoList
+    GoodInfo, CategoryView, SkuInfo, SpuSaleAttrList, CartType, CartInfoList, UserType
 } from '@/interface/ResultType'
 
 export const home = defineStore(StoreName.HOME, {
@@ -186,7 +192,8 @@ export const shopCart = defineStore(StoreName.SHOPCART, {
 export const user = defineStore(StoreName.USER, {
     state: () => {
         return {
-            code: <string>''
+            code: <string>'',
+            user: <UserType>{}
         }
     },
     actions: {
@@ -204,6 +211,16 @@ export const user = defineStore(StoreName.USER, {
             if (result.data.code == 200) {
                 return 'ok'
             } else {
+                return Promise.reject(new Error('faile'))
+            }
+        },
+
+        async userLogin(data: any) {
+            const result = await reqUserLogin(data)
+            if (result.data.code == 200) {
+                this.user = result.data.data ?? {}
+                return 'ok'
+            }else {
                 return Promise.reject(new Error('faile'))
             }
         }
