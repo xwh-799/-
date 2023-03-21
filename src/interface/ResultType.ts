@@ -210,3 +210,21 @@ export interface UserType {
     userId: number;
     token: string;
 }
+
+export interface UserInfoType {
+    id: number;
+    loginName: string;
+    nickName: string;
+    passwd: string;
+    name: string;
+    phoneNum: string;
+    email?: any;
+    headImg: string;
+    userLevel: string;
+    status: number;
+    birthday?: any;
+    gender: string;
+    createTime: string;
+    operateTime: string;
+    openId?: any;
+}

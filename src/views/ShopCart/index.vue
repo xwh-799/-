@@ -113,7 +113,7 @@ const deleteCartById = throttle(async function (cartInfo: CartInfoList) {
     await $shopCart.deleteCartById(cartInfo.skuId)
     await $shopCart.getCartList()
   } catch (e: any) {
-    console.log(e.message)
+    alert(e.message)
   }
 }, 1000)
 

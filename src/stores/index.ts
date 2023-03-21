@@ -12,7 +12,7 @@ import {
     reqUpdateCheckedById,
     reqGetCode,
     reqUserRegister,
-    reqUserLogin
+    reqUserLogin, reqUserInfo
 } from '@/api'
 import type {
     MockJSType,
@@ -22,7 +22,7 @@ import type {
     Result,
     TrademarkList,
     AttrsList,
-    GoodInfo, CategoryView, SkuInfo, SpuSaleAttrList, CartType, CartInfoList, UserType
+    GoodInfo, CategoryView, SkuInfo, SpuSaleAttrList, CartType, CartInfoList, UserType, UserInfoType
 } from '@/interface/ResultType'
 
 export const home = defineStore(StoreName.HOME, {
@@ -193,7 +193,8 @@ export const user = defineStore(StoreName.USER, {
     state: () => {
         return {
             code: <string>'',
-            user: <UserType>{}
+            user: <UserType>{},
+            userInfo: <UserInfoType>{}
         }
     },
     actions: {
@@ -220,10 +221,22 @@ export const user = defineStore(StoreName.USER, {
             if (result.data.code == 200) {
                 this.user = result.data.data ?? {}
                 return 'ok'
-            }else {
+            } else {
                 return Promise.reject(new Error('faile'))
+            }
+        },
+
+        async getUserInfo() {
+            const result = await reqUserInfo()
+            if (result.data.code == 200) {
+                this.userInfo = result.data.data ?? {}
+                // console.log(this.userInfo)
             }
         }
     },
-    getters: {}
+    getters: {
+        username(): string {
+            return this.userInfo.name ?? ''
+        }
+    }
 })
