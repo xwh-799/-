@@ -203,3 +203,10 @@ export interface CartType {
     activityRuleList?: any;
     createTime: string;
 }
+
+export interface UserTokenType {
+    nickName: string;
+    name: string;
+    userId: number;
+    token: string;
+}

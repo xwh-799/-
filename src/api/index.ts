@@ -81,3 +81,13 @@ export const reqUserRegister = (phone: string, password: string, code: string) =
         }
     })
 }
+
+// /api/user/passport/login
+export const reqUserLogin = (phone: string, password: string) => requests({
+    url: '/user/passport/login',
+    method: 'post',
+    data: {
+        phone,
+        password
+    }
+})

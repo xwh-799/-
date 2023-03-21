@@ -8,7 +8,8 @@ const requests = axios.create({
     baseURL: '/api',
     timeout: 5000,
     headers: {
-        userTempId: getUUID()
+        userTempId: getUUID(),
+        token:sessionStorage.getItem('token')
     }
 })
 
