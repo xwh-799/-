@@ -61,3 +61,23 @@ export const reqUpdateCheckedById = (skuId: number, isChecked: number) => {
         method: 'get'
     })
 }
+// /api/user/passport/sendCode/{phone}
+
+export const reqGetCode = (phone: string) => {
+    return requests({
+        url: `/user/passport/sendCode/${phone}`,
+        method: 'get'
+    })
+}
+// /api/user/passport/register
+export const reqUserRegister = (phone: string, password: string, code: string) => {
+    return requests({
+        url: '/user/passport/register',
+        method: 'post',
+        data: {
+            phone,
+            password,
+            code
+        }
+    })
+}

@@ -2,6 +2,6 @@ export enum StoreName {
     HOME = "home",
     SEARCH = "SEARCH",
     DETAIL = "detail",
-
-    SHOPCART = "shopCart"
+    SHOPCART = "shopCart",
+    USER = "user"
 }

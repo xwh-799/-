@@ -6,7 +6,7 @@ import {
     reqFloorList,
     regGetBannerList,
     reqGoodInfo,
-    reqAddOrUpdateShopCart, reqCartList, reqDeleteCartById, reqUpdateCheckedById
+    reqAddOrUpdateShopCart, reqCartList, reqDeleteCartById, reqUpdateCheckedById, reqGetCode, reqUserRegister
 } from '@/api'
 import type {
     MockJSType,
@@ -181,4 +181,32 @@ export const shopCart = defineStore(StoreName.SHOPCART, {
             return i.cartInfoList ?? []
         }
     }
+})
+
+export const user = defineStore(StoreName.USER, {
+    state: () => {
+        return {
+            code: <string>''
+        }
+    },
+    actions: {
+        async getCode(phone: string) {
+            const result = await reqGetCode(phone)
+            if (result.data.code == 200) {
+                this.code = result.data.data ?? ''
+                return 'ok'
+            } else {
+                return Promise.reject(new Error('faile'))
+            }
+        },
+        async userRegister(phone: string, password: string, code: string) {
+            const result = await reqUserRegister(phone, password, code)
+            if (result.data.code == 200) {
+                return 'ok'
+            } else {
+                return Promise.reject(new Error('faile'))
+            }
+        }
+    },
+    getters: {}
 })
