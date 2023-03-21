@@ -11,12 +11,6 @@
 </template>
 
 <script setup lang="ts">
-import ListContainer from './ListContainer/index.vue'
-import ReCommend from './ReCommend/index.vue'
-import Rank from './ReCommend/index.vue'
-import Like from './Like/index.vue'
-import Floor from './Floor/index.vue'
-import Brand from './Brand/index.vue'
 import {onMounted} from 'vue';
 import {home, user} from '@/stores'
 
