@@ -205,26 +205,26 @@ export interface CartType {
 }
 
 export interface UserType {
-    nickName: string;
-    name: string;
-    userId: number;
-    token: string;
+    nickName: string | null;
+    name: string | null;
+    userId: number | null;
+    token: string | null;
 }
 
 export interface UserInfoType {
-    id: number;
-    loginName: string;
-    nickName: string;
-    passwd: string;
-    name: string;
-    phoneNum: string;
+    id?: number;
+    loginName?: string;
+    nickName?: string;
+    passwd?: string;
+    name?: string;
+    phoneNum?: string;
     email?: any;
-    headImg: string;
-    userLevel: string;
-    status: number;
+    headImg?: string;
+    userLevel?: string;
+    status?: number;
     birthday?: any;
-    gender: string;
-    createTime: string;
-    operateTime: string;
+    gender?: string;
+    createTime?: string;
+    operateTime?: string;
     openId?: any;
 }

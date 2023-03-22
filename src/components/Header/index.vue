@@ -13,7 +13,7 @@
           </p>
           <p v-else>
             <a>{{ $user.username }}</a>
-            <a class="register">退出登录</a>
+            <a class="register" @click="logout">退出登录</a>
           </p>
         </div>
         <div class="typeList">
@@ -65,11 +65,19 @@ const goSearch = () => {
     keyword: keyword.value || undefined
   }
 
-
   if (route.query) {
     location.value.query = route.query
   }
   router.push(location.value)
+}
+
+const logout = () => {
+  try {
+    $user.userLogout()
+    router.push({name: 'home'})
+  } catch (e) {
+    alert(e.message)
+  }
 }
 
 onMounted(() => {

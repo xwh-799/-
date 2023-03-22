@@ -79,8 +79,6 @@ const userLogin = async () => {
 
   try {
     (phone && password) && await $user.userLogin({phone: phone.value, password: password.value})
-    const token = await $user.user.token
-    sessionStorage.setItem('token', token)
     await router.push({name: 'home'})
   } catch (e: any) {
     alert(e.message)

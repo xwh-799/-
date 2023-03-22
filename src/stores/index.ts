@@ -12,7 +12,7 @@ import {
     reqUpdateCheckedById,
     reqGetCode,
     reqUserRegister,
-    reqUserLogin, reqUserInfo
+    reqUserLogin, reqUserInfo, reqLogout
 } from '@/api'
 import type {
     MockJSType,
@@ -24,6 +24,7 @@ import type {
     AttrsList,
     GoodInfo, CategoryView, SkuInfo, SpuSaleAttrList, CartType, CartInfoList, UserType, UserInfoType
 } from '@/interface/ResultType'
+import {removeToken, setToken} from "@/utils/token";
 
 export const home = defineStore(StoreName.HOME, {
     state: () => {
@@ -220,6 +221,7 @@ export const user = defineStore(StoreName.USER, {
             const result = await reqUserLogin(data)
             if (result.data.code == 200) {
                 this.user = result.data.data ?? {}
+                setToken(result.data.data.token)
                 return 'ok'
             } else {
                 return Promise.reject(new Error('faile'))
@@ -231,6 +233,24 @@ export const user = defineStore(StoreName.USER, {
             if (result.data.code == 200) {
                 this.userInfo = result.data.data ?? {}
                 // console.log(this.userInfo)
+            }
+        },
+
+        async userLogout() {
+            const result = await reqLogout()
+            if (result.data.code == 200) {
+                this.user = {
+                    nickName: null,
+                    name: null,
+                    userId: null,
+                    token: null
+                }
+                this.userInfo = {}
+                removeToken('token')
+                removeToken('UUID_TOKEN')
+                return 'ok'
+            } else {
+                return Promise.reject(new Error('faile'))
             }
         }
     },

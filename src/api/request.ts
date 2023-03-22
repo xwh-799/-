@@ -3,14 +3,14 @@ import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 import type {ResultType} from '@/interface/ResultType'
 import {getUUID} from "@/utils/uuid_token";
+import {getToken} from "@/utils/token";
 
-const token = sessionStorage.getItem('token') ?? null
 const requests = axios.create({
     baseURL: '/api',
     timeout: 5000,
     headers: {
         userTempId: getUUID(),
-        token: token
+        token: getToken('token')
     }
 })
 
