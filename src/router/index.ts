@@ -1,4 +1,5 @@
 import {createRouter, createWebHashHistory, type RouteRecordRaw} from 'vue-router'
+import {getToken} from "@/utils/token";
 // import {createRouter, createWebHashHistory} from 'vue-router'
 // import * as VueRouter from 'vue-router'
 // VueRouter
@@ -66,7 +67,17 @@ const router = createRouter({
     routes: routes,
     scrollBehavior(to, from, savePosition) {
         return {top: 0}
+    },
+})
+router.beforeEach((to, from, next) => {
+
+    if (getToken('token')) {
+        if (to.path == '/login') {
+            next({path: '/home'})
+        }
     }
+    next()
+
 })
 
 export default router

@@ -47,7 +47,7 @@
 
 <script setup lang="ts">
 import {useRouter, useRoute} from 'vue-router'
-import {ref, getCurrentInstance, onMounted} from "vue";
+import {ref, watch, getCurrentInstance, onMounted} from "vue";
 import type {QueryType} from "@/interface/ResultType";
 import {user} from "@/stores";
 
